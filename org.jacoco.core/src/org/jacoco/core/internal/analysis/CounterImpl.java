@@ -179,15 +179,21 @@ public abstract class CounterImpl implements ICounter {
 	}
 
 	public double getCoveredRatio() {
+		if (missed == 0) {
+			return 1;
+		}
 		return (double) covered / (missed + covered);
 	}
 
 	public double getMissedRatio() {
+		if (missed == 0) {
+			return 0;
+		}
 		return (double) missed / (missed + covered);
 	}
 
 	public int getStatus() {
-		int status = covered > 0 ? FULLY_COVERED : EMPTY;
+		int status = covered > 0 || missed == 0 ? FULLY_COVERED : EMPTY;
 		if (missed > 0) {
 			status |= NOT_COVERED;
 		}
